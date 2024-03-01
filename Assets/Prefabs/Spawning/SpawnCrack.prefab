@@ -95,4 +95,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca679e867becb74dbc4d89c6f0cdd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHeat: 20
   enemySpawnEffect: {fileID: 5158847209854354718, guid: edabf9694790a704385e839728329d76, type: 3}

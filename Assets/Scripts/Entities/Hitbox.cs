@@ -70,7 +70,7 @@ public class SpacialGrouping {
     public (int bucketX, int bucketY) Add(Hitbox hitbox) {
         (int bucketX, int bucketY) = GetBucket(hitbox);
 
-        Debug.Log($"UPDATE TO: ({bucketX}, {bucketY})");
+        //Debug.Log($"UPDATE TO: ({bucketX}, {bucketY})");
         buckets[bucketX, bucketY].AddLast(hitbox);
         return (bucketX, bucketY);
     }
@@ -78,6 +78,10 @@ public class SpacialGrouping {
     public void Remove(Hitbox hitbox) {
         (int bucketX, int bucketY) = GetBucket(hitbox);
         buckets[bucketX, bucketY].Remove(hitbox);
+    }
+
+    public void Remove(Hitbox hitbox, (int bucketX, int bucketY) data) {
+        buckets[data.bucketX, data.bucketY].Remove(hitbox);
     }
 
     public LinkedList<Hitbox> CollisionWithAll(Hitbox hitbox) {
@@ -116,6 +120,7 @@ public class SpacialGrouping {
                 //TOP&BOT
                 for (int ix = minIX; ix < maxIX; ix++) {
                     allBuckets.AddLast(buckets[ix, minIY]);
+                    //Debug.Log($"buckets[ix, maxIY] {ix}, {maxIY}");
                     allBuckets.AddLast(buckets[ix, maxIY]);
                 }
                 //LEFT&RIGHT
@@ -170,7 +175,7 @@ public class SpacialGrouping {
     public (int bucketX, int bucketY) UpdateHitboxBucket((int bucketX, int bucketY) oldData, Hitbox hitbox) {
         (int bucketX, int bucketY) = GetBucket(hitbox);
         if (oldData.bucketX != bucketX || oldData.bucketY != bucketY) {
-            Remove(hitbox);
+            Remove(hitbox, oldData);
             //Debug.Log($"UPDATE TO: ({data.bucketX}, {data.bucketY})");
             return Add(hitbox);
         }

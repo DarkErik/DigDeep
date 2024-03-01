@@ -23,12 +23,10 @@ public class Entity : MonoBehaviour
 
     public void Damage(int amount) {
         hp -= amount;
-        Debug.Log("HP: " + hp);
+        //Debug.Log("HP: " + hp);
         if (hp <= 0) {
             if (onDeath != null)onDeath(this);
-            if (this.gameObject.layer == LayerMask.NameToLayer("Enemy")) { //TOO HACKY
-                SpacialGrouping.currentGrouping.Remove(this.GetComponent<Hitbox>());
-            }
+            
             Destroy(this.gameObject);
             return;
         }

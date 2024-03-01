@@ -7,7 +7,7 @@ public class SpawnCrack : MonoBehaviour
     private int spawnIndex;
     private Generator heatGen;
 
-    private int currentHeat;
+    [SerializeField] private int currentHeat;
     [SerializeField] private GameObject enemySpawnEffect;
 
     public void Init(int spawnIndex, Generator heatGen) {

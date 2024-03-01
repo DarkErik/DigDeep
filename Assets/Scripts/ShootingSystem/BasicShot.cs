@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasicShot : MonoBehaviour
 {
     public static readonly int COLLISION_CHECK_DELAY_IN_FRAMES = 3;
-
+    private static readonly float TIME_ALIVE = 3f;
     [SerializeField] private bool adjustRotation = true;
 
     private float speed;
@@ -15,8 +15,11 @@ public class BasicShot : MonoBehaviour
     private Hitbox hitbox;
     private Vector3 direction;
 
+    private float destructionTime;
+
     private DoEveryXFrame collisionCheck;
 
+    private bool destroyThis = false;
     private void Awake() {
         hitbox = GetComponent<Hitbox>();
         collisionCheck = new DoEveryXFrame(COLLISION_CHECK_DELAY_IN_FRAMES, CollisionCheck);
@@ -33,16 +36,28 @@ public class BasicShot : MonoBehaviour
         if (adjustRotation) {
             transform.rotation = Quaternion.Euler(0, 0, angleDEG);
         }
+
+        destructionTime = Time.time + TIME_ALIVE;
     }
 
     private void FixedUpdate() {
         
         collisionCheck.UpdateFrame();
+        if (destroyThis) {
+            Destroy(gameObject);
+            return;
+        }
 
         transform.position += Time.fixedDeltaTime * speed * direction;
 
         if (Physics2D.OverlapCircle(hitbox.GetCenter(), hitbox.GetRadius(), Factory.Instance.walls)) {
             Destroy(this.gameObject);
+            return;
+        }
+
+        if (destructionTime <= Time.time) {
+            Destroy(this.gameObject);
+            return;
         }
     }
 
@@ -56,6 +71,7 @@ public class BasicShot : MonoBehaviour
             Hitbox hit = SpacialGrouping.currentGrouping.CollisionWith(hitbox);
             if (hit != null) {
                 hit.GetComponent<Entity>()?.Damage(damage);
+                destroyThis = true;
             }
         }
     }

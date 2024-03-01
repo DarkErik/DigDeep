@@ -19,7 +19,7 @@ public abstract class BasicWeapon : MonoBehaviour
 
     protected virtual void Update() {
         if (currentReloadTimer > 0) {
-            currentReloadTimer -= currentReloadTimer;
+            currentReloadTimer -= Time.deltaTime;
         }
     }
 

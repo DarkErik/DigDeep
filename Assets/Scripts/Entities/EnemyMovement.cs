@@ -16,6 +16,10 @@ public class EnemyMovement : MonoBehaviour
 
     private State state = State.SLEEP;
 
+    public void Awake() {
+        GetComponent<Entity>().AddOnDeathEvent(OnDeath);
+    }
+
     private void Start() {
         spacialGroupingData = SpacialGrouping.currentGrouping.Add(hitbox);
     }
@@ -41,6 +45,10 @@ public class EnemyMovement : MonoBehaviour
 
                 break;
         }
+    }
+
+    private void OnDeath(Entity ent) {
+        SpacialGrouping.currentGrouping.Remove(hitbox, spacialGroupingData);
     }
 
     private void Walk(float deltaTime) {

@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
                 Entity ent = collider.GetComponent<Entity>();
                 if (ent != null) {
                     entity.Damage(ent.GetTouchDamage());
-                    Debug.Log("PlayerHit!");
+                    //Debug.Log("PlayerHit!");
                     currentInviz = invizDuration;
                 }
             }
